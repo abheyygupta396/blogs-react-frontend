@@ -29,10 +29,6 @@ module.exports = {
             "@babel/preset-typescript",
             "@babel/preset-react",
           ],
-          plugins: [
-            "react-hot-loader/babel",
-            ["@babel/plugin-proposal-class-properties", { loose: true }],
-          ],
         },
       },
       {
