@@ -1,0 +1,161 @@
+body {
+  background-color: #ffffff;
+  /* background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%); */
+  background-image: url("https://images.pexels.com/photos/733856/pexels-photo-733856.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-size: cover; /* or "contain" */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* or "scroll" */
+  /* Additional styles */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+.card {
+  width: 700px;
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  border: none;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+.blog-card {
+  /* width: 500px; */
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+  height: 300px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  cursor: pointer;
+  /* Add transition for a smooth effect */
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Apply scale transformation on hover */
+.blog-card:hover {
+  transform: scale(1.1);
+}
+
+.posts-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px; /* Adjust the gap between cards as needed */
+  padding: 10px 20px;
+
+  @media (min-width: 768px) and (max-width: 1340px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1341px) and (max-width: 1640px) {
+    gap: 20px;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr !important;
+  }
+}
+label.radio {
+  cursor: pointer;
+  width: 100%;
+}
+label.radio input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+label.radio span {
+  padding: 7px 14px;
+  border: 2px solid #eee;
+  display: inline-block;
+  color: #039be5;
+  border-radius: 10px;
+  width: 100%;
+  height: 48px;
+  line-height: 27px;
+}
+label.radio input:checked + span {
+  border-color: #039be5;
+  background-color: #81d4fa;
+  color: #fff;
+  border-radius: 9px;
+  height: 48px;
+  line-height: 27px;
+}
+.form-control {
+  margin-top: 10px;
+  height: 48px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+}
+.form-control:focus {
+  box-shadow: none;
+  border: 2px solid #039be5;
+}
+.agree-text {
+  font-size: 12px;
+}
+.terms {
+  font-size: 12px;
+  text-decoration: none;
+  color: #039be5;
+}
+.confirm-button {
+  height: 50px;
+  border-radius: 10px;
+}
+.btn-width {
+  width: 150px;
+}
+.icon-style {
+  cursor: pointer !important;
+}
+.toast-div-address {
+  min-height: 54px;
+  background: #ffffff !important;
+  border-radius: 5px !important;
+  word-break: break-all;
+  border-left: 8px solid rgb(228, 66, 30);
+  opacity: 1;
+  font: normal normal medium 16px/19px Barlow !important;
+  letter-spacing: 0.32px;
+  color: #000 !important;
+}
+.toast-div-address-success {
+  min-height: 54px;
+  background: #ffffff !important;
+  word-break: break-all;
+  border-radius: 5px !important;
+  border-left: 8px solid rgb(76, 230, 20);
+  opacity: 1;
+  font: normal normal medium 16px/19px Barlow !important;
+  letter-spacing: 0.32px;
+  color: #000 !important;
+}
+.whitespace-break {
+  white-space: break-spaces !important;
+}
+.px-4 {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+.px-4 {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+.mt-6 {
+  margin-top: 6px !important;
+}
+
+.multiline-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
