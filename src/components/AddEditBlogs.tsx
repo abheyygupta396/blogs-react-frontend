@@ -10,8 +10,16 @@ import commonToasts from "../common/commonToast";
 
 export const AddEditBlogsSchema = yup.object().shape({
   id: yup.string(),
-  title: yup.string().required("Title is required"),
-  content: yup.string().required("Content is required"),
+  title: yup
+    .string()
+    .required("Title is required")
+    .min(1, "Title should be alteast 1 characters")
+    .max(50, "Title should not be more than 50 characters"),
+  content: yup
+    .string()
+    .required("Content is required")
+    .min(1, "Title should be alteast 1 characters")
+    .max(2000, "Title should not be more than 2000 characters"),
 });
 
 export default function AddEditBlogsAndPost() {
@@ -26,10 +34,53 @@ export default function AddEditBlogsAndPost() {
     resolver: yupResolver(AddEditBlogsSchema),
   });
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const postId = searchParams.get("id");
   const [isLoading, setLoading] = useState(false);
 
-  const onSubmit = (data) => handleSave(data);
+  useEffect(() => {
+    let mount = true;
+    if (mount && postId) {
+      getPostsDetailsById();
+    }
+    return () => {
+      mount = false;
+    };
+  }, []);
 
+  //! get blog details by id
+  const getPostsDetailsById = async () => {
+    if (!postId) {
+      commonToasts.errorToast("Id not found");
+      return;
+    }
+    try {
+      setLoading(true);
+      const parameters = {
+        url: `https://blogs-fastapi-backend.onrender.com/posts/${postId}`,
+        method: "GET",
+      };
+
+      const res: any = await axios(parameters);
+      if (res?.data?.response_code === 200) {
+        reset({
+          ...res?.data?.response_data[0],
+          content: res?.data?.response_data[0]?.body,
+        });
+      } else {
+        commonToasts.errorToast(res?.data?.response_message);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      commonToasts.errorToast("Something went wrong");
+      return;
+    }
+  };
+
+  const onSubmit = (data) => (postId ? handleEdit(data) : handleSave(data));
+
+  //!  save blog:
   const handleSave = async (dt) => {
     try {
       const postData = { title: dt?.title, body: dt?.content };
@@ -45,6 +96,35 @@ export default function AddEditBlogsAndPost() {
       } else {
         commonToasts.errorToast(res?.data?.response_message);
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      commonToasts.errorToast("Something went wrong");
+      return;
+    }
+  };
+
+  //! edit blogs:
+  const handleEdit = async (dt) => {
+    if (!postId) {
+      return;
+    }
+    try {
+      const reqBody = {
+        title: dt?.title,
+        body: dt?.content,
+      };
+      const putParameters = {
+        url: `https://blogs-fastapi-backend.onrender.com/posts/${postId}`,
+        method: "PUT",
+        data: reqBody,
+      };
+      const res: any = await axios(putParameters);
+      if (res?.data?.response_code === 200) {
+        commonToasts.successToast(res?.data?.response_message);
+      } else {
+        commonToasts.errorToast(res?.data?.response_message);
+      }
+      navigate(-1);
     } catch (error) {
       console.error("Error fetching data:", error);
       commonToasts.errorToast("Something went wrong");
@@ -70,7 +150,7 @@ export default function AddEditBlogsAndPost() {
                   ></i>
                 </span>
                 <span className="fs-4 card-title mb-4">
-                  {"Create New Blog ..."}
+                  {postId ? "Edit Blog " : "Create New Blog ..."}
                 </span>
               </div>
               <div className="row">

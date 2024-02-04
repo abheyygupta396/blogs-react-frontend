@@ -21,6 +21,7 @@ const Card = styled.div`
   cursor: pointer;
   transition: box-shadow 0.4s, transform 0.4s;
   margin: 40px auto;
+  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
   &:hover {
     transform: translateY(-2px);
   }

@@ -10,8 +10,16 @@ import commonToasts from "../common/commonToast";
 
 export const AddEditBlogsSchema = yup.object().shape({
   id: yup.string(),
-  title: yup.string().required("Title is required"),
-  content: yup.string().required("Content is required"),
+  title: yup
+    .string()
+    .required("Title is required")
+    .min(1, "Title should be alteast 1 characters")
+    .max(50, "Title should not be more than 50 characters"),
+  content: yup
+    .string()
+    .required("Content is required")
+    .min(1, "Title should be alteast 1 characters")
+    .max(2000, "Title should not be more than 2000 characters"),
 });
 
 export default function ViewBlogDetails() {
@@ -29,7 +37,6 @@ export default function ViewBlogDetails() {
   const [searchParams] = useSearchParams();
   const postId = searchParams.get("id");
   const [isLoading, setLoading] = useState(false);
-  const [isEdit, setEdit] = useState(false);
 
   useEffect(() => {
     let mount = true;
@@ -70,41 +77,11 @@ export default function ViewBlogDetails() {
     }
   };
 
-  const onSubmit = (data) => handleEdit(data);
-
-  const handleEdit = async (dt) => {
-    if (!postId) {
-      return;
-    }
-    try {
-      const reqBody = {
-        title: dt?.title,
-        body: dt?.content,
-      };
-      const putParameters = {
-        url: `https://blogs-fastapi-backend.onrender.com/posts/${postId}`,
-        method: "PUT",
-        data: reqBody,
-      };
-      const res: any = await axios(putParameters);
-      if (res?.data?.response_code === 200) {
-        commonToasts.successToast(res?.data?.response_message);
-      } else {
-        commonToasts.errorToast(res?.data?.response_message);
-      }
-      navigate(-1);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      commonToasts.errorToast("Something went wrong");
-      return;
-    }
-  };
-
   return (
     <React.Fragment>
       <div className="container mt-5 mb-5 d-flex justify-content-center">
         <div className="card px-1 py-4">
-          <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+          <form autoComplete="off">
             <div className="card-body">
               <div className="d-flex justify-content-between flex-row">
                 <div className="d-flex flex-row gap-3">
@@ -118,9 +95,12 @@ export default function ViewBlogDetails() {
                       aria-hidden="true"
                     ></i>
                   </span>
-                  <span className="fs-4 card-title mb-4">{isEdit ? 'Edit Blog Details' : "Blog Details"}</span>
+                  <span className="fs-4 card-title mb-4">{"Blog Details"}</span>
                 </div>
-                <span title="edit post" onClick={() => setEdit(!isEdit)}>
+                <span
+                  title="edit post"
+                  onClick={() => navigate(`/posts/edit?id=${postId}`)}
+                >
                   <i
                     className="fa fa-pencil-square-o icon-style fa-lg text-info"
                     aria-hidden="true"
@@ -132,8 +112,8 @@ export default function ViewBlogDetails() {
                   <div className="form-group">
                     <div className="input-group">
                       <input
-                        disabled={isEdit ? false : true}
-                        readOnly={isEdit ? false : true}
+                        disabled={true}
+                        readOnly={true}
                         id="title"
                         name="title"
                         placeholder="Enter your blog title"
@@ -158,8 +138,8 @@ export default function ViewBlogDetails() {
                     <div className="input-group">
                       <textarea
                         id="content"
-                        disabled={isEdit ? false : true}
-                        readOnly={isEdit ? false : true}
+                        disabled={true}
+                        readOnly={true}
                         name="content"
                         placeholder="Write your content ..."
                         rows={16}
@@ -178,16 +158,6 @@ export default function ViewBlogDetails() {
                   </div>
                 </div>
               </div>
-              {isEdit && (
-                <div className="d-flex justify-content-center pt-20">
-                  <button
-                    type={"submit"}
-                    className="btn btn-outline-info btn-width "
-                  >
-                    Submit
-                  </button>
-                </div>
-              )}
             </div>
           </form>
         </div>

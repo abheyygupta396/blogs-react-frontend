@@ -159,3 +159,21 @@ label.radio input:checked + span {
   -webkit-line-clamp: 7; /* start showing ellipsis when 3rd line is reached */
   white-space: pre-wrap; /* let the text wrap preserving spaces */
 }
+
+.no-data-adjustment {
+  background-color: #ffffff;
+  /* background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%); */
+  background-image: url("http://www.simsnd.in/assets/admin/no_data_found.png");
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  height: 500px;
+  width: 518px;
+}
+
+.card-btn {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  height: 100%;
+}

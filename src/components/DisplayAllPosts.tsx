@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import commonToasts from "../common/commonToast";
 import ShimmerLoaderCard from "../common/commonShimmerLoader";
+import DataNotFound from "./NotFound";
 
 const DisplayAllPosts = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const DisplayAllPosts = () => {
     };
   }, []);
 
+  //!  get list of all blogs:
   const getListOfPosts = async () => {
     try {
       setLoading(true);
@@ -79,28 +81,29 @@ const DisplayAllPosts = () => {
         </button>
       </div>
       <div className="posts-container">
-        {isLoading ? (
-          Array.from({ length: 6 })?.map((_, index) => (
-            <ShimmerLoaderCard key={index} />
-          ))
-        ) : allPosts && allPosts?.length > 0 ? (
-          allPosts?.map((eachPost, idx) => {
-            return (
-              <Post
-                id={eachPost.id}
-                key={eachPost.id + idx}
-                title={eachPost.title}
-                content={eachPost.body}
-                handleDeletePost={handleDeletePost}
-              />
-            );
-          })
-        ) : (
-          <div>
-            <li>There are no posts yet.</li>
-          </div>
-        )}
+        {isLoading
+          ? Array.from({ length: 6 })?.map((_, index) => (
+              <ShimmerLoaderCard key={index} />
+            ))
+          : allPosts &&
+            allPosts?.length > 0 &&
+            allPosts?.map((eachPost, idx) => {
+              return (
+                <Post
+                  id={eachPost.id}
+                  key={eachPost.id + idx}
+                  title={eachPost.title}
+                  content={eachPost.body}
+                  handleDeletePost={handleDeletePost}
+                />
+              );
+            })}
       </div>
+      {Boolean(!isLoading && allPosts?.length === 0) && (
+        <div className="d-flex justify-content-center align-items-center vh-90">
+          <DataNotFound />
+        </div>
+      )}
     </React.Fragment>
   );
 };
