@@ -128,4 +128,8 @@ Screenshots attached for application:
 
 ![image](https://drive.google.com/uc?id=1sJpzoquVGmSdppjSwNbfDX2hBXbZdXnH)
 
+# Backend Repository Url:
+
+[Repository Url](https://github.com/abheyygupta396/blogs-fastapi-backend.git)
+
 
